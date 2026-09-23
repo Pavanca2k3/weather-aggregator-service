@@ -1,0 +1,34 @@
+[project]
+name = "nokia"
+version = "0.1.0"
+description = "FastAPI service backed by PostgreSQL"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+# Alembic renders these from its own templates; don't fight the generator.
+extend-exclude = ["alembic/versions"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.flake8-bugbear]
+# Depends()/Query() in argument defaults is the intended FastAPI idiom, not the
+# mutable-default bug B008 exists to catch.
+extend-immutable-calls = [
+    "fastapi.Depends",
+    "fastapi.Query",
+    "fastapi.Path",
+    "fastapi.Body",
+    "fastapi.Header",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# `auto` lets async test functions run without a per-test decorator; the
+# session-scoped loop keeps the asyncpg connection pool alive across tests
+# instead of rebuilding it for each one.
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
+asyncio_default_test_loop_scope = "session"

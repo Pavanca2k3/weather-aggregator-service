@@ -1,0 +1,8 @@
+# Normalise line endings: LF in the repository, native in the working tree.
+# Without this, committing from Windows produces a warning on every file.
+* text=auto eol=lf
+
+# Windows-native scripts must keep CRLF to run reliably.
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
